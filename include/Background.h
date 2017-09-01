@@ -1,6 +1,5 @@
 
-#ifndef _BACKGROUND_H_
-#define _BACKGROUND_H_
+#pragma once
 
 namespace vngine {
 
@@ -13,6 +12,3 @@ private:
 };
 
 }
-
-#endif
-

@@ -1,6 +1,5 @@
 
-#ifndef _CHAR3DMODEL_H_
-#define _CHAR3DMODEL_H_
+#pragma once
 
 namespace vngine {
 namespace character {
@@ -14,5 +13,3 @@ public:
 
 }
 }
-
-#endif

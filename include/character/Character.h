@@ -1,6 +1,5 @@
 
-#ifndef _CHARACTER_H_
-#define _CHARACTER_H_
+#pragma once
 
 namespace vngine {
 namespace character {
@@ -14,5 +13,3 @@ private:
 
 }
 }
-
-#endif //_CHARACTER_H_

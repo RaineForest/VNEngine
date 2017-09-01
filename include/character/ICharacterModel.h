@@ -1,6 +1,5 @@
 
-#ifndef _ICHARACTER_MODEL_H_
-#define _ICHARACTER_MODEL_H_
+#pragma once
 
 namespace vngine {
 namespace character {
@@ -14,5 +13,3 @@ public:
 
 }
 }
-
-#endif

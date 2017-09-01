@@ -1,6 +1,5 @@
 
-#ifndef _SCENE_H_
-#define _SCENE_H_
+#pragma once
 
 #include <vector>
 
@@ -14,6 +13,3 @@ public:
 
 	virtual void draw() = 0;
 };
-
-#endif //_SCENE_H_
-
