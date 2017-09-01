@@ -8,16 +8,16 @@
 namespace vngine {
 namespace dialogue {
 
-class Conversation {
+class Script {
 public:
-	Conversation(Script& s);
-	~Conversation();
+	Script(std::string filename);
+	~Script();
 
-	Response& prompt();
-	void respond(Action& a);
+	Response& getNextResponse();
+	void giveAction(Action& a);
 
 private:
-	Script script;
+	
 };
 
 }

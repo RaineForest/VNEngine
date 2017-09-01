@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "include/dialogue/Action.h"
+#include "Action.h"
 #include <vector>
 
 namespace vngine {
