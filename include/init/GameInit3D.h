@@ -24,6 +24,13 @@ public:
 
 	void start();
 
+	void draw();
+
+	void add(IDrawable* obj);
+	void remove(IDrawable* obj);
+
+	void update(std::chrono::milliseconds dt);
+
 private:
 	bool fullscreen;
 	int width;

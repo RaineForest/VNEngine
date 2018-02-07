@@ -48,8 +48,14 @@ void GameInit3D::start()
 		throw std::runtime_error("Failed to init GLEW");
 	}
 
+	std::chrono::high_resolution_clock::time_point last = std::chrono::high_resolution_clock::now();
+
 	do {
-		//TODO: call user provided routine
+		draw();
+
+		std::chrono::high_resolution_clock::time_point next = std::chrono::high_resolution_clock::now();
+		update(next - last);
+		last = next;
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -58,4 +64,3 @@ void GameInit3D::start()
 
 }
 }
-
