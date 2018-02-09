@@ -9,8 +9,7 @@ namespace graphics {
 /**
  * Interface for describing drawable objects
  */
-template<typename T, unsigned int Dim,
-        typename = std::enable_if_t<std::is_arithmetic<T>::value>>
+template<typename T, unsigned int Dim>
 class IDrawable
 {
 public:
@@ -19,7 +18,7 @@ public:
         /**
          * Draws the object 
          */
-        virtual void draw() = 0;
+        virtual void draw() const = 0;
 
         /**
          * Sets the location of the object being drawn

@@ -25,7 +25,7 @@ void Pane::remove(IDrawable* obj)
 
 }
 
-void Pane::draw()
+void Pane::draw() const
 {
 
 }

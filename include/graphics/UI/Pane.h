@@ -10,7 +10,7 @@ namespace ui {
 /**
  * Basic container for holding other drawables
  */
-class Pane : public IContainer
+class Pane : public IContainer<T>
 {
 public:
         Pane();
@@ -19,7 +19,7 @@ public:
         virtual void add(IDrawable* obj);
         virtual void remove(IDrawable* obj);
         
-        virtual void draw();
+        virtual void draw() const;
 };
 
 } // namespace ui
