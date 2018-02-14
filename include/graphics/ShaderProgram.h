@@ -11,12 +11,10 @@ namespace graphics {
 class ShaderProgram
 {
 public:
-        template<GLenum ShaderType>
         ShaderProgram();
         virtual ~ShaderProgram();
 
-        template<typename ShaderType>
-        void setShaders(const std::vector<Shader<ShaderType>>& s);
+        void setShaders(const std::vector<Shader>& s);
 
         void use() const;
 

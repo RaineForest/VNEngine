@@ -1,7 +1,7 @@
 
 #include "init/GameInit3D.h"
 
-#include <GL/glew.h>
+#include <functional>
 
 namespace vngine {
 namespace init {
@@ -28,11 +28,11 @@ void GameInit3D::start()
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	window = std::unique_ptr<GLFWwindow>(
+	window = std::unique_ptr<GLFWwindow, std::function<void(GLFWwindow*)>>(
 		glfwCreateWindow(
 			width, 
 			height,
-			title,
+			title.c_str(),
 			fullscreen ? glfwGetPrimaryMonitor() : NULL,
 			NULL),
 		[](GLFWwindow* me) { glfwDestroyWindow(me); }
@@ -42,7 +42,7 @@ void GameInit3D::start()
 		throw std::runtime_error("Failed to open window");
 	}
 
-	glfwMakeContextCurrent(window);
+	glfwMakeContextCurrent(window.get());
 	glewExperimental=true;
 	if (glewInit() != GLEW_OK) {
 		throw std::runtime_error("Failed to init GLEW");
@@ -54,12 +54,22 @@ void GameInit3D::start()
 		draw();
 
 		std::chrono::high_resolution_clock::time_point next = std::chrono::high_resolution_clock::now();
-		update(next - last);
+		update(std::chrono::duration_cast<std::chrono::milliseconds>(next - last));
 		last = next;
 
-		glfwSwapBuffers(window);
+		glfwSwapBuffers(window.get());
 		glfwPollEvents();
-	} while (glfwWindowShouldClose(window) == 0);
+	} while (glfwWindowShouldClose(window.get()) == 0);
+}
+
+void GameInit3D::draw()
+{
+
+}
+
+void GameInit3D::update(std::chrono::milliseconds dt)
+{
+
 }
 
 }

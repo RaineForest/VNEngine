@@ -2,6 +2,9 @@
 #include "Exceptions.h"
 #include "graphics/ShaderProgram.h"
 
+#include <algorithm>
+#include <memory>
+
 namespace vngine {
 namespace graphics {
 
@@ -15,14 +18,13 @@ ShaderProgram::~ShaderProgram()
         glDeleteProgram(m_programHandle);
 }
 
-template<typename ShaderType>
-void ShaderProgram::setShaders(const std::vector<Shader<ShaderType>>& s)
+void ShaderProgram::setShaders(const std::vector<Shader>& s)
 {
-        std::for_each(m_shaders.begin(), m_shaders.end(), [this](GLuint shader) {
+        std::for_each(m_shaders.begin(), m_shaders.end(), [this](GLuint& shader) {
                 glDetachShader(this->m_programHandle, shader);
         });
         m_shaders.clear();
-        std::for_each(s.begin(), s.end(), [this](Shader<ShaderType> x) {
+        std::for_each(s.begin(), s.end(), [this](const Shader& x) {
                 this->m_shaders.push_back(x.getHandle());
                 glAttachShader(this->m_programHandle, x.getHandle());
         });
@@ -45,7 +47,7 @@ std::string ShaderProgram::getError() const
         GLsizei nchars = 0;
         glGetProgramiv(m_programHandle, GL_INFO_LOG_LENGTH, &length);
         std::unique_ptr<char[]> log = std::make_unique<char[]>(length);
-        glGetProgramInfoLog(m_programHandle, length, &nchars, log);
+        glGetProgramInfoLog(m_programHandle, length, &nchars, &log[0]);
         return std::string(log.get());
 }
 

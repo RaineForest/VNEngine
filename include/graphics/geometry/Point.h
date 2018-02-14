@@ -1,9 +1,11 @@
 
 #pragma once
 
+#include <algorithm>
 #include <array>
 #include <initializer_list>
 #include <functional>
+#include <sstream>
 #include <type_traits>
 
 namespace vngine {
@@ -66,7 +68,9 @@ public:
         T& operator[](unsigned int idx)
         {
                 if (idx >= Dim) {
-                        throw std::out_of_range("Index " + idx + " is out of range.");
+                        std::stringstream s;
+                        s << "Index " << idx << " is out of range.";
+                        throw std::out_of_range(s.str());
                 }
                 return values[idx];
         }
@@ -74,7 +78,9 @@ public:
         const T& operator[](unsigned int idx) const
         {
                 if (idx >= Dim) {
-                        throw std::out_of_range("Index " + idx + " is out of range.");
+                        std::stringstream s;
+                        s << "Index " << idx << " is out of range.";
+                        throw std::out_of_range(s.str());
                 }
                 return values[idx];
         }
@@ -120,12 +126,14 @@ private:
         template<typename Op>
         Point<T, Dim> genericUnaryArith(const T& rhs)
         {
-                std::for_each(values.begin(), values.end(), [](T& x) { Op o; x = o(x, rhs); });
+                std::for_each(values.begin(), values.end(), [&](T& x) { Op o; x = o(x, rhs); });
                 return *this;
         }
 };
 
-using Vector = Point;
+template<typename T, unsigned int Dim,
+         typename = std::enable_if_t<std::is_arithmetic<T>::value>>
+using Vector = Point<T, Dim>;
 
 } // namespace geometry
 } // namespace graphics

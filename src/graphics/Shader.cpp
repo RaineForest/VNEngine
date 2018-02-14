@@ -2,19 +2,20 @@
 #include "Exceptions.h"
 #include "graphics/Shader.h"
 
+#include <memory>
+
 namespace vngine {
 namespace graphics {
 
-template<GLenum ShaderType>
-Shader::Shader(std::string src) :
+Shader::Shader(GLenum shaderType, std::string src) :
         m_source(src),
-        m_type(ShaderType)
+        m_type(shaderType)
 {
         // create the handle
-        m_shaderHandle = glCreateShader(ShaderType);
+        m_shaderHandle = glCreateShader(shaderType);
 
         // attach the source to the handle
-        GLchar* psource = static_cast<GLchar*>(m_source.c_str());
+        const GLchar* psource = static_cast<const GLchar*>(m_source.c_str());
         glShaderSource(m_shaderHandle, 1, &psource, NULL);
 
         // compile the shader
@@ -42,7 +43,7 @@ std::string Shader::getError() const
         GLsizei nchars = 0;
         glGetShaderiv(m_shaderHandle, GL_INFO_LOG_LENGTH, &length);
         std::unique_ptr<char[]> log = std::make_unique<char[]>(length);
-        glGetShaderInfoLog(m_shaderHandle, length, &nchars, log);
+        glGetShaderInfoLog(m_shaderHandle, length, &nchars, &log[0]);
         return std::string(log.get());
 }
 

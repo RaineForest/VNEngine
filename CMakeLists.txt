@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.0.0)
 
 project(VNgine)
 
@@ -15,8 +15,6 @@ set(CMAKE_CXX_STANDARD 14)
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
 set(VNGINE_SOURCES
-	"src/graphics/geometry/Projector.cpp"
-	"src/graphics/UI/Pane.cpp"
 	"src/graphics/Shader.cpp"
 	"src/graphics/ShaderProgram.cpp"
 	"src/init/GameInit3D.cpp"
@@ -24,6 +22,6 @@ set(VNGINE_SOURCES
 
 set(LIBS ${OPENGL_LIBRARY} ${GLEW_LIBRARY} ${GLFW3_LIBRARY})
 
-add_library(vngine.a STATIC ${VNGINE_SOURCES})
+add_library(vngine STATIC ${VNGINE_SOURCES})
 
-target_link_libraries(vngine.a ${LIBS})
+target_link_libraries(vngine ${LIBS})

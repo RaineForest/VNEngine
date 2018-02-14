@@ -4,12 +4,15 @@
 #include "init/IGameInit.h"
 
 #include <functional>
-#include <GL/glfw.h>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include <memory>
 #include <string>
 
 namespace vngine {
 namespace init {
+
+using namespace graphics;
 
 class GameInit3D : public IGameInit
 {
@@ -20,16 +23,18 @@ public:
 		int height = 720,
 		std::string title = "Game"
 	);
-	~GameInit3D();
+	virtual ~GameInit3D();
 
-	void start();
+	virtual void start();
 
-	void draw();
+	virtual void draw();
 
-	void add(IDrawable* obj);
-	void remove(IDrawable* obj);
+	/*
+	void add(IDrawable<float, 3>* obj);
+	void remove(IDrawable<float, 3>* obj);
+	*/
 
-	void update(std::chrono::milliseconds dt);
+	virtual void update(std::chrono::milliseconds dt);
 
 private:
 	bool fullscreen;
@@ -37,7 +42,7 @@ private:
 	int height;
 	std::string title;
 
-	std::unique_ptr<GLFWwindow> window;
+	std::unique_ptr<GLFWwindow, std::function<void(GLFWwindow*)>> window;
 };
 
 } //namespace init

@@ -10,16 +10,29 @@ namespace ui {
 /**
  * Basic container for holding other drawables
  */
+template<typename T>
 class Pane : public IContainer<T>
 {
 public:
-        Pane();
-        virtual ~Pane();
+        Pane()
+        {
+        }
 
-        virtual void add(IDrawable* obj);
-        virtual void remove(IDrawable* obj);
+        virtual ~Pane()
+        {
+        }
+
+        virtual void add(IDrawable* obj)
+        {
+        }
+
+        virtual void remove(IDrawable* obj)
+        {
+        }
         
-        virtual void draw() const;
+        virtual void draw() const
+        {
+        }
 };
 
 } // namespace ui

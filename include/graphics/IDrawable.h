@@ -6,6 +6,8 @@
 namespace vngine {
 namespace graphics {
 
+using geometry::Point;
+
 /**
  * Interface for describing drawable objects
  */
@@ -24,37 +26,37 @@ public:
          * Sets the location of the object being drawn
          * \param newLoc the new location of the object
          */
-        virtual void setLocation(const Point<T, Dim>& newLoc) { m_location = newLoc; }
+        void setLocation(const Point<T, Dim>& newLoc) { m_location = newLoc; }
         
         /**
          * Gets the location of the object being drawn
          * \return the location of the object
          */
-        virtual const Point<T, Dim>& getLocation() const { return m_location; }
+        const Point<T, Dim>& getLocation() const { return m_location; }
 
         /**
          * Sets the orientation of the object being drawn
          * \param newRot the new orientation of the object
          */
-        virtual void setOrientation(const Point<T, Dim>& newRot) { m_orientation = newRot; }
+        void setOrientation(const Point<T, Dim>& newRot) { m_orientation = newRot; }
 
         /**
          * Gets the orientation of the object being drawn
          * \return the orientation of the object
          */
-        virtual const Point<T, Dim>& getOrientation() const { return m_orientation; }
+        const Point<T, Dim>& getOrientation() const { return m_orientation; }
 
         /**
          * Sets the scale of the object being drawn
          * \param newRot the new scale of the object
          */
-        virtual void setScale(const Point<T, Dim>& newScale) { m_scale = newScale; }
+        void setScale(const Point<T, Dim>& newScale) { m_scale = newScale; }
 
         /**
          * Gets the scale of the object being drawn
          * \return the scale of the object
          */
-        virtual const Point<T, Dim>& getOrientation() const { return m_scale; }
+        const Point<T, Dim>& getOrientation() const { return m_scale; }
 
 protected:
         Point<T, Dim> m_location;

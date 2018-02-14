@@ -16,9 +16,9 @@ public:
 
         virtual ~VNgineException() {}
 
-        virtual const char* what() const noexcept
+        virtual const char* what() const noexcept override
         {
-                return (prefix + m_msg).c_str();
+                return (prefix() + m_msg).c_str();
         }
 
 protected:
@@ -28,7 +28,7 @@ protected:
         }
 
         std::string m_msg;
-}
+};
 
 class GLException : public VNgineException
 {
@@ -37,7 +37,7 @@ public:
         virtual ~GLException() {}
 
 protected:
-        virtual std::string prefix() const noexcept
+        virtual std::string prefix() const noexcept override
         {
                 return "GLException: ";
         }

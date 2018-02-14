@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include <GL/gl.h>
+#include <GL/glew.h>
 #include <string>
 
 namespace vngine {
@@ -10,8 +10,7 @@ namespace graphics {
 class Shader
 {
 public:
-        template<GLenum ShaderType>
-        Shader(std::string src);
+        Shader(GLenum shaderType, std::string src);
 
         virtual ~Shader();
 
