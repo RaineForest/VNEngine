@@ -16,7 +16,7 @@ ShaderProgram::~ShaderProgram()
 }
 
 template<typename ShaderType>
-void ShaderProgram::set(const std::vector<Shader<ShaderType>>& s)
+void ShaderProgram::setShaders(const std::vector<Shader<ShaderType>>& s)
 {
         std::for_each(m_shaders.begin(), m_shaders.end(), [this](GLuint shader) {
                 glDetachShader(this->m_programHandle, shader);
@@ -26,6 +26,12 @@ void ShaderProgram::set(const std::vector<Shader<ShaderType>>& s)
                 this->m_shaders.push_back(x.getHandle());
                 glAttachShader(this->m_programHandle, x.getHandle());
         });
+        glLinkProgram(m_programHandle);
+        GLint flag;
+        glGetProgramiv(m_programHandle,  GL_LINK_STATUS, &flag);
+        if (flag == GL_FALSE) {
+                throw GLException("Shader program link error: " + getError());
+        }
 }
 
 void ShaderProgram::use() const

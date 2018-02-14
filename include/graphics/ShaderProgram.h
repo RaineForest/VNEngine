@@ -16,11 +16,12 @@ public:
         virtual ~ShaderProgram();
 
         template<typename ShaderType>
-        void set(const std::vector<Shader<ShaderType>>& s);
+        void setShaders(const std::vector<Shader<ShaderType>>& s);
 
         void use() const;
 
         // TODO: binding and setting attributes
+        // void setUniform(std::string binding, )
 
 private:
         std::string getError() const;
