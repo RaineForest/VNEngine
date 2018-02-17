@@ -9,34 +9,34 @@ using vngine::graphics::geometry::Point;
 TEST(PointTest, Initialization)
 {
         Point<int, 3> p({1, 2, 3});
-        ASSERT_TRUE(p.size() == 3);
+        ASSERT_EQ(p.size(), 3);
 
         int* d = (int*)p; //testing casting too
-        ASSERT_TRUE(d[0] == 1);
-        ASSERT_TRUE(d[1] == 2);
-        ASSERT_TRUE(d[2] == 3);
+        ASSERT_EQ(d[0], 1);
+        ASSERT_EQ(d[1], 2);
+        ASSERT_EQ(d[2], 3);
 }
 
 TEST(PointTest, Access)
 {
         Point<int, 4> p({4, 5, 6, 7});
-        ASSERT_TRUE(p[0] == 4);
-        ASSERT_TRUE(p[1] == 5);
-        ASSERT_TRUE(p[2] == 6);
-        ASSERT_TRUE(p[3] == 7);
+        ASSERT_EQ(p[0], 4);
+        ASSERT_EQ(p[1], 5);
+        ASSERT_EQ(p[2], 6);
+        ASSERT_EQ(p[3], 7);
 
         p[0] = 8;
-        ASSERT_TRUE(p[0] == 8);
+        ASSERT_EQ(p[0], 8);
 
-        ASSERT_TRUE(p.x() == 8);
-        ASSERT_TRUE(p.y() == 5);
-        ASSERT_TRUE(p.z() == 6);
-        ASSERT_TRUE(p.w() == 7);
+        ASSERT_EQ(p.x(), 8);
+        ASSERT_EQ(p.y(), 5);
+        ASSERT_EQ(p.z(), 6);
+        ASSERT_EQ(p.w(), 7);
 
-        ASSERT_TRUE(p.r() == 8);
-        ASSERT_TRUE(p.g() == 5);
-        ASSERT_TRUE(p.b() == 6);
-        ASSERT_TRUE(p.a() == 7);
+        ASSERT_EQ(p.r(), 8);
+        ASSERT_EQ(p.g(), 5);
+        ASSERT_EQ(p.b(), 6);
+        ASSERT_EQ(p.a(), 7);
 }
 
 TEST(PointTest, Equality)
@@ -45,8 +45,8 @@ TEST(PointTest, Equality)
         Point<int, 2> q({1, 2});
         Point<int, 2> r({0, 1});
 
-        ASSERT_TRUE(p == r);
-        ASSERT_TRUE(p != q);
+        ASSERT_EQ(p, r);
+        ASSERT_NE(p, q);
 }
 
 TEST(PointTest, ElementMath)
@@ -61,13 +61,13 @@ TEST(PointTest, ElementMath)
         Point<int, 2> expectDiv({0, 0});
         
         result = p + q;
-        ASSERT_TRUE(result == expectAdd);
+        ASSERT_EQ(result, expectAdd);
         result = p - q;
-        ASSERT_TRUE(result == expectSub);
+        ASSERT_EQ(result, expectSub);
         result = p * q;
-        ASSERT_TRUE(result == expectMul);
+        ASSERT_EQ(result, expectMul);
         result = p / q;
-        ASSERT_TRUE(result == expectDiv);
+        ASSERT_EQ(result, expectDiv);
 }
 
 TEST(PointTest, ScalarMath)
@@ -80,9 +80,9 @@ TEST(PointTest, ScalarMath)
         Point<int, 2> expectDiv({0, 1});
 
         result = p * q;
-        ASSERT_TRUE(result == expectMul);
+        ASSERT_EQ(result, expectMul);
         result = p / q;
-        ASSERT_TRUE(result == expectDiv);
+        ASSERT_EQ(result, expectDiv);
 }
 
 TEST(PointTest, DotProd)
@@ -93,5 +93,5 @@ TEST(PointTest, DotProd)
         int expect = 5;
 
         result = dot(p,q);
-        ASSERT_TRUE(result == expect);
+        ASSERT_EQ(result, expect);
 }

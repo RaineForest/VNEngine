@@ -39,8 +39,9 @@ include_directories(${PROJECT_SOURCE_DIR}/lib/googletest/googlemock/include ${PR
 set(VNGINE_TESTS
 	"test/unit/main.cpp"
 	"test/unit/PointTest.cpp"
+	"test/unit/GLHelperTest.cpp"
 )
 
 add_executable(vngine_unit ${VNGINE_TESTS})
-target_link_libraries(vngine_unit gtest gtest_main gmock gmock_main)
+target_link_libraries(vngine_unit gtest gtest_main gmock gmock_main ${LIBS})
 add_test(vngine_unit vngine_unit)
