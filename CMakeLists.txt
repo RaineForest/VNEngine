@@ -25,3 +25,21 @@ set(LIBS ${OPENGL_LIBRARY} ${GLEW_LIBRARY} ${GLFW3_LIBRARY})
 add_library(vngine STATIC ${VNGINE_SOURCES})
 
 target_link_libraries(vngine ${LIBS})
+
+#######################################################
+####################### Testing #######################
+#######################################################
+
+add_subdirectory(${PROJECT_SOURCE_DIR}/lib/googletest)
+enable_testing()
+include_directories(${PROJECT_SOURCE_DIR}/lib/googletest/googletest/include ${PROJECT_SOURCE_DIR}/lib/googletest/googletest)
+include_directories(${PROJECT_SOURCE_DIR}/lib/googletest/googlemock/include ${PROJECT_SOURCE_DIR}/lib/googletest/googlemock)
+
+set(VNGINE_TESTS
+	"test/unit/main.cpp"
+	"test/unit/PointTest.cpp"
+)
+
+add_executable(vngine_unit VNGINE_TESTS)
+target_link_libraries(vngine_unit gtest gtest_main)
+add_test(vngine_unit vngine_unit)
