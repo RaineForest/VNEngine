@@ -11,6 +11,7 @@ find_package(GLEW REQUIRED)
 find_package(glfw3 REQUIRED)
 
 set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ggdb")
 
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
@@ -40,6 +41,6 @@ set(VNGINE_TESTS
 	"test/unit/PointTest.cpp"
 )
 
-add_executable(vngine_unit VNGINE_TESTS)
-target_link_libraries(vngine_unit gtest gtest_main)
+add_executable(vngine_unit ${VNGINE_TESTS})
+target_link_libraries(vngine_unit gtest gtest_main gmock gmock_main)
 add_test(vngine_unit vngine_unit)

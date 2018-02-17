@@ -18,9 +18,29 @@ class Point
 {
 public:
         Point() : values({0}) {}
-        Point(T init[Dim]) : values(init) {}
+        Point(const std::array<T, Dim>& init) : values(init) {}
         ~Point() {}
 
+private:
+        std::array<T, Dim> values; ///< dimensions for the point
+
+        template<typename BinaryOperation>
+        Point<T, Dim>& genericUnaryArith(const Point<T, Dim>& rhs, BinaryOperation o)
+        {
+                for (unsigned int i = 0; i < Dim; i++) {
+                        values[i] = o(values[i], rhs.values[i]);
+                }
+                return *this;
+        }
+
+        template<typename BinaryOperation>
+        Point<T, Dim>& genericUnaryArith(const T& rhs, BinaryOperation o)
+        {
+                std::for_each(values.begin(), values.end(), [&](T& x) { x = o(x, rhs); });
+                return *this;
+        }
+
+public:
         // element-wise ops
         friend Point<T, Dim> operator+(Point<T, Dim> lhs, const Point<T, Dim>& rhs) { return lhs += rhs; }
         friend Point<T, Dim> operator-(Point<T, Dim> lhs, const Point<T, Dim>& rhs) { return lhs -= rhs; }
@@ -41,13 +61,13 @@ public:
         }
 
         // element-wise ops
-        Point<T, Dim>& operator+=(const Point<T, Dim>& rhs) { return genericUnaryArith<std::plus>(rhs); }
-        Point<T, Dim>& operator-=(const Point<T, Dim>& rhs) { return genericUnaryArith<std::minus>(rhs); }
-        Point<T, Dim>& operator*=(const Point<T, Dim>& rhs) { return genericUnaryArith<std::multiplies>(rhs); }
-        Point<T, Dim>& operator/=(const Point<T, Dim>& rhs) { return genericUnaryArith<std::divides>(rhs); }
+        Point<T, Dim>& operator+=(const Point<T, Dim>& rhs) { genericUnaryArith(rhs, std::plus<T>()); return *this; }
+        Point<T, Dim>& operator-=(const Point<T, Dim>& rhs) { genericUnaryArith(rhs, std::minus<T>()); return *this; }
+        Point<T, Dim>& operator*=(const Point<T, Dim>& rhs) { genericUnaryArith(rhs, std::multiplies<T>()); return *this; }
+        Point<T, Dim>& operator/=(const Point<T, Dim>& rhs) { genericUnaryArith(rhs, std::divides<T>()); return *this; }
         // scalar ops
-        Point<T, Dim>& operator*=(const T& rhs) { return genericUnaryArith<std::multiplies>(rhs); }
-        Point<T, Dim>& operator/=(const T& rhs) { return genericUnaryArith<std::divides>(rhs); }
+        Point<T, Dim>& operator*=(const T& rhs) { genericUnaryArith(rhs, std::multiplies<T>()); return *this; }
+        Point<T, Dim>& operator/=(const T& rhs) { genericUnaryArith(rhs, std::divides<T>()); return *this; }
 
         // equality
         bool operator==(const Point<T, Dim>& rhs)
@@ -92,43 +112,23 @@ public:
         operator T*() { return values.data(); }
 
         // convenience getters/setters
-        T& x() { return *this[0]; } 
-        T& y() { return *this[1]; } 
-        T& z() { return *this[2]; } 
-        T& w() { return *this[3]; } 
-        const T& x() const { return *this[0]; } 
-        const T& y() const { return *this[1]; } 
-        const T& z() const { return *this[2]; } 
-        const T& w() const { return *this[3]; } 
+        T& x() { return values[0]; } 
+        T& y() { return values[1]; } 
+        T& z() { return values[2]; } 
+        T& w() { return values[3]; } 
+        const T& x() const { return values[0]; } 
+        const T& y() const { return values[1]; } 
+        const T& z() const { return values[2]; } 
+        const T& w() const { return values[3]; } 
 
-        T& r() { return *this[0]; } 
-        T& g() { return *this[1]; } 
-        T& b() { return *this[2]; } 
-        T& a() { return *this[3]; } 
-        const T& r() const { return *this[0]; } 
-        const T& g() const { return *this[1]; } 
-        const T& b() const { return *this[2]; } 
-        const T& a() const { return *this[3]; } 
-
-private:
-        std::array<T, Dim> values; ///< dimensions for the point
-
-        template<typename Op>
-        Point<T, Dim> genericUnaryArith(const Point<T, Dim>& rhs)
-        {
-                Op o;
-                for (unsigned int i = 0; i < Dim; i++) {
-                        values[i] = o(values[i], rhs.values[i]);
-                }
-                return *this;
-        }
-
-        template<typename Op>
-        Point<T, Dim> genericUnaryArith(const T& rhs)
-        {
-                std::for_each(values.begin(), values.end(), [&](T& x) { Op o; x = o(x, rhs); });
-                return *this;
-        }
+        T& r() { return values[0]; } 
+        T& g() { return values[1]; } 
+        T& b() { return values[2]; } 
+        T& a() { return values[3]; } 
+        const T& r() const { return values[0]; } 
+        const T& g() const { return values[1]; } 
+        const T& b() const { return values[2]; } 
+        const T& a() const { return values[3]; } 
 };
 
 template<typename T, unsigned int Dim,

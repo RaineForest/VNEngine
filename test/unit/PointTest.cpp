@@ -4,6 +4,8 @@
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
 
+using vngine::graphics::geometry::Point;
+
 TEST(PointTest, Initialization)
 {
         Point<int, 3> p({1, 2, 3});
