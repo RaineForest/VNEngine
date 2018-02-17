@@ -70,7 +70,7 @@ public:
         Point<T, Dim>& operator/=(const T& rhs) { genericUnaryArith(rhs, std::divides<T>()); return *this; }
 
         // equality
-        bool operator==(const Point<T, Dim>& rhs)
+        bool operator==(const Point<T, Dim>& rhs) const
         {
                 for (unsigned int i = 0; i < Dim; i++) {
                         if (values[i] != rhs.values[i]) {
@@ -79,7 +79,7 @@ public:
                 }
                 return true;
         }
-        bool operator!=(const Point<T, Dim>& rhs)
+        bool operator!=(const Point<T, Dim>& rhs) const
         {
                 return !operator==(rhs);
         }

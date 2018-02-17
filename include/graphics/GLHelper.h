@@ -1,10 +1,12 @@
 
 #pragma once
 
+#include <cassert>
 #include <dlfcn.h>
 #include <functional>
 #include <memory>
 #include <sstream>
+#include <stdexcept>
 #include <string>
 #include <utility>
 
@@ -15,29 +17,32 @@ template<typename ... Args>
 void glHelperCall(std::string func, Args ... args)
 {
         // auto close on scope exit
-        std::unqiue_ptr<void, void(void*)> handle = std::unique_ptr<void, void(void*)>(
-                dlopen("libGL.so", RTLD_LAZY | RTLD_NOLOAD | RTLD_NODELETE), [](void* h) { dlclose(h); });
+        auto deleter = [](void* h) { dlclose(h); };
+        std::unique_ptr<void, decltype(deleter)> handle(
+                dlopen("libGL.so", RTLD_LAZY | RTLD_NOLOAD | RTLD_NODELETE),
+                deleter
+        );
 
         if (handle == nullptr) {
-                stringstream s;
+                std::stringstream s;
                 s << "Could not open handle to libGL.so: " << dlerror();
                 throw std::runtime_error(s.str());
         }
 
-        using Func = void(*)(Args);
+        using Func = void(*)(Args...);
 
-        Func func = dlsym(handle, func.c_str());
+        Func boundFunc = reinterpret_cast<Func>(dlsym(handle.get(), func.c_str()));
         const char* symError = dlerror();
         if (symError) {
-                stringstream s;
+                std::stringstream s;
                 s << "Could not load symbol \"" << func << "\": " << symError;
                 throw std::runtime_error(s.str());
         }
 
-        func(std::forward<Args>(args));
+        boundFunc(std::forward<Args>(args)...);
 }
 
-// default doober, should be used
+// default doober, should not be used
 template<typename T>
 std::string glTypeToIdent(T)
 {
@@ -75,9 +80,23 @@ std::string glTypeToIdent<double>(double)
         return std::string("d");
 }
 
-template<typename T, unsigned int N, typename ... Args>
-void glHelper(std::string func, Args ... args) {
-        glHelperCall(func + std::string(N) + glTypeToIdent(T), args);
+/**
+ * glHelper - calls opengl functions of type gl.*[1-4][f,d,i,s,ui]() e.g. glVertex4f, glUniform3i
+ * "meaty" in the following context refers to the meaningful values being passed on
+ * 
+ * Example:
+ * glUniform3f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2)
+ *                  non-meaty       meaty       meaty       meaty
+ * note glUniform(x)f : x == meatyArity
+ * 
+ * \param func the name of the function
+ * \param type the type of the meaty params
+ * \param meatyArity the arity of the meaty params
+ * \param args ALL of the params to the function
+ */
+template<typename T, typename ... Args>
+void glHelper(std::string func, T type, unsigned int meatyArity, Args ... args) {
+        glHelperCall(func + std::to_string(meatyArity) + glTypeToIdent(type), std::forward<Args>(args)...);
 }
 
 } // namespace graphics

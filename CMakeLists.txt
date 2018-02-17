@@ -21,7 +21,7 @@ set(VNGINE_SOURCES
 	"src/init/GameInit3D.cpp"
 )
 
-set(LIBS ${OPENGL_LIBRARY} ${GLEW_LIBRARY} ${GLFW3_LIBRARY})
+set(LIBS ${OPENGL_LIBRARY} ${GLEW_LIBRARY} ${GLFW3_LIBRARY} -ldl)
 
 add_library(vngine STATIC ${VNGINE_SOURCES})
 
