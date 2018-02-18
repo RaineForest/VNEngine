@@ -16,8 +16,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ggdb")
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
 set(VNGINE_SOURCES
-	"src/graphics/Shader.cpp"
-	"src/graphics/ShaderProgram.cpp"
+	"src/graphics/glwrapping/Shader.cpp"
+	"src/graphics/glwrapping/ShaderProgram.cpp"
 	"src/init/GameInit3D.cpp"
 )
 

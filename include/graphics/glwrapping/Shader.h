@@ -6,6 +6,7 @@
 
 namespace vngine {
 namespace graphics {
+namespace glwrapping {
 
 class Shader
 {
@@ -24,5 +25,6 @@ private:
         GLenum m_type;
 };
 
+} // namespace glwrapping
 } // namespace graphics
 } // namespace vngine

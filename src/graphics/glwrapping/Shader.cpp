@@ -1,11 +1,12 @@
 
 #include "Exceptions.h"
-#include "graphics/Shader.h"
+#include "graphics/glwrapping/Shader.h"
 
 #include <memory>
 
 namespace vngine {
 namespace graphics {
+namespace glwrapping {
 
 Shader::Shader(GLenum shaderType, std::string src) :
         m_source(src),
@@ -47,5 +48,6 @@ std::string Shader::getError() const
         return std::string(log.get());
 }
 
+} // namespace glwrapping
 } // namespace graphics
 } // namespace vngine

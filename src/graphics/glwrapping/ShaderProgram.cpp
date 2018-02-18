@@ -1,12 +1,14 @@
 
 #include "Exceptions.h"
-#include "graphics/ShaderProgram.h"
+#include "graphics/glwrapping/GLHelper.h"
+#include "graphics/glwrapping/ShaderProgram.h"
 
 #include <algorithm>
 #include <memory>
 
 namespace vngine {
 namespace graphics {
+namespace glwrapping {
 
 ShaderProgram::ShaderProgram()
 {
@@ -51,5 +53,6 @@ std::string ShaderProgram::getError() const
         return std::string(log.get());
 }
 
+} // namespace glwrapping
 } // namespace graphics
 } // namespace vngine
