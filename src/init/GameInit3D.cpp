@@ -51,20 +51,27 @@ void GameInit3D::start()
 	std::chrono::high_resolution_clock::time_point last = std::chrono::high_resolution_clock::now();
 
 	do {
-		draw();
-
 		std::chrono::high_resolution_clock::time_point next = std::chrono::high_resolution_clock::now();
 		update(std::chrono::duration_cast<std::chrono::milliseconds>(next - last));
 		last = next;
+
+		draw();
 
 		glfwSwapBuffers(window.get());
 		glfwPollEvents();
 	} while (glfwWindowShouldClose(window.get()) == 0);
 }
 
+void GameInit3D::add(std::unique_ptr<graphics::IDrawable<float, 3>> obj)
+{
+	drawables.push_back(std::move(obj));
+}
+
 void GameInit3D::draw()
 {
-
+	for (auto& drawable : drawables) {
+		drawable->draw();
+	}
 }
 
 void GameInit3D::update(std::chrono::milliseconds dt)

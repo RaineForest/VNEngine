@@ -8,7 +8,7 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
-find_package(glfw3 REQUIRED)
+find_package(glfw3 3.2 REQUIRED)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ggdb")
@@ -21,7 +21,7 @@ set(VNGINE_SOURCES
 	"src/init/GameInit3D.cpp"
 )
 
-set(LIBS ${OPENGL_LIBRARY} ${GLEW_LIBRARY} ${GLFW3_LIBRARY} -ldl)
+set(LIBS ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY} ${GLEW_LIBRARY} glfw -ldl)
 
 add_library(vngine STATIC ${VNGINE_SOURCES})
 
@@ -45,3 +45,7 @@ set(VNGINE_TESTS
 add_executable(vngine_unit ${VNGINE_TESTS})
 target_link_libraries(vngine_unit gtest gtest_main gmock gmock_main ${LIBS})
 add_test(vngine_unit vngine_unit)
+
+add_executable(vngine_render_gameinit "test/rendering/GameInitTest.cpp")
+target_link_libraries(vngine_render_gameinit ${LIBS})
+target_link_libraries(vngine_render_gameinit vngine)

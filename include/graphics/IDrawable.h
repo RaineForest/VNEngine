@@ -56,7 +56,7 @@ public:
          * Gets the scale of the object being drawn
          * \return the scale of the object
          */
-        const Point<T, Dim>& getOrientation() const { return m_scale; }
+        const Point<T, Dim>& getScale() const { return m_scale; }
 
 protected:
         Point<T, Dim> m_location;

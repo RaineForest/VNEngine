@@ -12,7 +12,7 @@ namespace graphics {
 class IUpdateable
 {
 public:
-        virtual ~IUpdateable() = 0;
+        virtual ~IUpdateable() = default;
 
         /**
          * Updates the object 

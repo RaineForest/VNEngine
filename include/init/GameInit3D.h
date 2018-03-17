@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include "graphics/IDrawable.h"
 #include "init/IGameInit.h"
 
 #include <functional>
@@ -8,11 +9,10 @@
 #include <GLFW/glfw3.h>
 #include <memory>
 #include <string>
+#include <vector>
 
 namespace vngine {
 namespace init {
-
-using namespace graphics;
 
 class GameInit3D : public IGameInit
 {
@@ -24,15 +24,13 @@ public:
 		std::string title = "Game"
 	);
 	virtual ~GameInit3D();
+	GameInit3D(GameInit3D&& other) = default;
 
 	virtual void start();
 
-	virtual void draw();
+	void add(std::unique_ptr<graphics::IDrawable<float, 3>> obj);
 
-	/*
-	void add(IDrawable<float, 3>* obj);
-	void remove(IDrawable<float, 3>* obj);
-	*/
+	virtual void draw();
 
 	virtual void update(std::chrono::milliseconds dt);
 
@@ -41,6 +39,8 @@ private:
 	int width;
 	int height;
 	std::string title;
+
+	std::vector<std::unique_ptr<graphics::IDrawable<float, 3>>> drawables;
 
 	std::unique_ptr<GLFWwindow, std::function<void(GLFWwindow*)>> window;
 };
