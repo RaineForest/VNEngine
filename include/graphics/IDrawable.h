@@ -15,7 +15,7 @@ template<typename T, unsigned int Dim>
 class IDrawable
 {
 public:
-        virtual ~IDrawable() = 0;
+        virtual ~IDrawable() = default;
 
         /**
          * Draws the object 

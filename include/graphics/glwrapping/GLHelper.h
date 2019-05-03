@@ -50,39 +50,39 @@ void glHelperCall(std::string func, Args ... args)
 }
 
 // default doober, should not be used
-template<typename T>
-std::string glTypeToIdent()
+template<typename T> inline
+std::string glTypeToIdent(T)
 {
         assert(false /* unsupported type */);
         return std::string(typeid(T).name());
 }
 
-template<>
-std::string glTypeToIdent<int>()
+template<> inline
+std::string glTypeToIdent<int>(int)
 {
         return std::string("i");
 }
 
-template<>
-std::string glTypeToIdent<float>()
+template<> inline
+std::string glTypeToIdent<float>(float)
 {
         return std::string("f");
 }
 
-template<>
-std::string glTypeToIdent<unsigned int>()
+template<> inline
+std::string glTypeToIdent<unsigned int>(unsigned int)
 {
         return std::string("ui");
 }
 
-template<>
-std::string glTypeToIdent<short>()
+template<> inline
+std::string glTypeToIdent<short>(short)
 {
         return std::string("s");
 }
 
-template<>
-std::string glTypeToIdent<double>()
+template<> inline
+std::string glTypeToIdent<double>(double)
 {
         return std::string("d");
 }
@@ -103,67 +103,67 @@ std::string glTypeToIdent<double>()
  */
 template<typename T, typename ... Args>
 void glHelper(std::string func, unsigned int meatyArity, Args ... args) {
-        glHelperCall(func + std::to_string(meatyArity) + glTypeToIdent<T>(), std::forward<Args>(args)...);
+        glHelperCall(func + std::to_string(meatyArity) + glTypeToIdent<T>(0), std::forward<Args>(args)...);
 }
 
 template<typename T, typename ... Args>
 void glHelper(std::string func, unsigned int meatyArity, T* array, Args ... args) {
-        glHelperCall(func + std::to_string(meatyArity) + glTypeToIdent<T>() + std::string("v"),
+        glHelperCall(func + std::to_string(meatyArity) + glTypeToIdent<T>(0) + std::string("v"),
                      std::forward<Args>(args)...,
                      array);
 }
 
-template<typename T>
-GLenum glTypeToEnum()
+template<typename T> inline
+GLenum glTypeToEnum(T)
 {
         assert(false /* unsupported type */);
         return 0;
 }
 
-template<>
-GLenum glTypeToEnum<char>()
+template<> inline
+GLenum glTypeToEnum<char>(char)
 {
         return GL_BYTE;
 }
 
-template<>
-GLenum glTypeToEnum<unsigned char>()
+template<> inline
+GLenum glTypeToEnum<unsigned char>(unsigned char)
 {
         return GL_UNSIGNED_BYTE;
 }
 
-template<>
-GLenum glTypeToEnum<short>()
+template<> inline
+GLenum glTypeToEnum<short>(short)
 {
         return GL_SHORT;
 }
 
-template<>
-GLenum glTypeToEnum<unsigned short>()
+template<> inline
+GLenum glTypeToEnum<unsigned short>(unsigned short)
 {
         return GL_UNSIGNED_SHORT;
 }
 
-template<>
-GLenum glTypeToEnum<int>()
+template<> inline
+GLenum glTypeToEnum<int>(int)
 {
         return GL_INT;
 }
 
-template<>
-GLenum glTypeToEnum<unsigned int>()
+template<> inline
+GLenum glTypeToEnum<unsigned int>(unsigned int)
 {
         return GL_UNSIGNED_INT;
 }
 
-template<>
-GLenum glTypeToEnum<float>()
+template<> inline
+GLenum glTypeToEnum<float>(float)
 {
         return GL_FLOAT;
 }
 
-template<>
-GLenum glTypeToEnum<double>()
+template<> inline
+GLenum glTypeToEnum<double>(double)
 {
         return GL_DOUBLE;
 }

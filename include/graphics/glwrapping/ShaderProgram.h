@@ -6,6 +6,7 @@
 #include "graphics/glwrapping/GLHelper.h"
 #include "graphics/glwrapping/MultiAttribBuffer.h"
 #include "graphics/glwrapping/Shader.h"
+#include "graphics/glwrapping/VertexArray.h"
 
 #include <string>
 #include <vector>
@@ -27,10 +28,10 @@ public:
         void use() const;
 
         template<typename T, unsigned int N>
-        void setUniform(std::string binding, Vector<T, N> v) const;
+        void setUniform(const std::string& binding, Vector<T, N> v) const;
 
         template<typename T, unsigned int N>
-        void setInput(std::string binding, const MultiAttribBuffer<T, N>& buf, unsigned int subBuffer) const;
+        void setInput(const std::string& binding, const VertexArray& array, const MultiAttribBuffer<T, N>& buf, unsigned int subBuffer) const;
 
 private:
         std::string getError() const;
@@ -40,23 +41,17 @@ private:
 };
 
 template<typename T, unsigned int N>
-void ShaderProgram::setUniform(std::string binding, Vector<T, N> v) const
+void ShaderProgram::setUniform(const std::string& binding, Vector<T, N> v) const
 {
-        GLuint var = glGetUniformLocation(m_programHandle, binding.c_str());
+        GLuint var = glGetAttribLocation(m_programHandle, binding.c_str());
         glHelper<T>("glUniform", N, static_cast<T*>(v), var, N);
 }
 
 template<typename T, unsigned int N>
-void ShaderProgram::setInput(std::string binding, const MultiAttribBuffer<T, N>& buf, unsigned int subBuffer) const
+void ShaderProgram::setInput(const std::string& binding, const VertexArray& array, const MultiAttribBuffer<T, N>& buf, unsigned int subBuffer) const
 {
         GLuint handle = glGetAttribLocation(m_programHandle, binding.c_str());
-        glEnableVertexAttribArray(handle);
-        glVertexAttribPointer(handle,
-                              buf.getNumComponents(subBuffer),
-                              glTypeToEnum<T>(),
-                              GL_FALSE,
-                              buf.getStride(subBuffer),
-                              buf.getOffset(subBuffer)); 
+        array.setBuffer(handle, buf, subBuffer);
 }
 
 } // namespace glwrapping

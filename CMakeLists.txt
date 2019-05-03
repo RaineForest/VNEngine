@@ -11,7 +11,7 @@ find_package(GLEW REQUIRED)
 find_package(glfw3 3.2 REQUIRED)
 
 set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ggdb")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ggdb -Wall -Wextra -Werror")
 
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
@@ -47,5 +47,7 @@ target_link_libraries(vngine_unit gtest gtest_main gmock gmock_main ${LIBS})
 add_test(vngine_unit vngine_unit)
 
 add_executable(vngine_render_gameinit "test/rendering/GameInitTest.cpp")
-target_link_libraries(vngine_render_gameinit ${LIBS})
-target_link_libraries(vngine_render_gameinit vngine)
+target_link_libraries(vngine_render_gameinit ${LIBS} vngine)
+
+add_executable(vngine_render_triangle "test/rendering/Triangle.cpp")
+target_link_libraries(vngine_render_triangle ${LIBS} vngine)

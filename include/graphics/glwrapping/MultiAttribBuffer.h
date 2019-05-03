@@ -16,10 +16,11 @@ class MultiAttribBuffer : public Buffer<T>
 {
 public:
         MultiAttribBuffer(GLenum type, std::unique_ptr<T[]> buffer, unsigned int num,
-                          std::array<unsigned int, N>& numComponents,
-                          std::array<unsigned int, N>& stride,
-                          std::array<void*, N>& offset);
+                          std::array<unsigned int, N> numComponents,
+                          std::array<unsigned int, N> stride,
+                          std::array<void*, N> offset);
         virtual ~MultiAttribBuffer();
+        MultiAttribBuffer(MultiAttribBuffer&& other) = default;
 
         virtual unsigned int getNumComponents(unsigned int subBuffer) const;
         virtual unsigned int getStride(unsigned int subBuffer) const;
@@ -36,9 +37,9 @@ MultiAttribBuffer<T, N>::MultiAttribBuffer(
         GLenum type,
         std::unique_ptr<T[]> buffer,
         unsigned int num,
-        std::array<unsigned int, N>& numComponents,
-        std::array<unsigned int, N>& stride,
-        std::array<void*, N>& offset) :
+        std::array<unsigned int, N> numComponents,
+        std::array<unsigned int, N> stride,
+        std::array<void*, N> offset) :
         Buffer<T>(type, std::move(buffer), num), // super constructor
         m_components(numComponents),
         m_stride(stride),

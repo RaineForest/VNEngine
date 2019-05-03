@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <memory>
+#include <vector>
 
 namespace vngine {
 namespace graphics {
@@ -34,7 +35,9 @@ void ShaderProgram::setShaders(const std::vector<Shader>& s)
         GLint flag;
         glGetProgramiv(m_programHandle,  GL_LINK_STATUS, &flag);
         if (flag == GL_FALSE) {
-                throw GLException("Shader program link error: " + getError());
+                std::string err("Shader program link error:\n");
+                err += getError();
+                throw GLException(err);
         }
 }
 
@@ -48,9 +51,9 @@ std::string ShaderProgram::getError() const
         GLint length = 0;
         GLsizei nchars = 0;
         glGetProgramiv(m_programHandle, GL_INFO_LOG_LENGTH, &length);
-        std::unique_ptr<char[]> log = std::make_unique<char[]>(length);
-        glGetProgramInfoLog(m_programHandle, length, &nchars, &log[0]);
-        return std::string(log.get());
+        std::vector<char> log(length);
+        glGetShaderInfoLog(m_programHandle, length, &nchars, log.data());
+        return std::string(log.begin(), log.end());
 }
 
 } // namespace glwrapping

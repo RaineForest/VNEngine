@@ -3,6 +3,7 @@
 #include "graphics/glwrapping/Shader.h"
 
 #include <memory>
+#include <vector>
 
 namespace vngine {
 namespace graphics {
@@ -24,7 +25,10 @@ Shader::Shader(GLenum shaderType, std::string src) :
         GLint flag;
         glGetShaderiv(m_shaderHandle, GL_COMPILE_STATUS, &flag);
         if (flag == GL_FALSE) {
-                throw GLException("Shader Compile error: \n" + getError());
+                std::string s("Shader Compile error:\n");
+                std::string err = getError();
+                s += err;
+                throw GLException(s);
         }
 }
 
@@ -43,9 +47,9 @@ std::string Shader::getError() const
         GLint length = 0;
         GLsizei nchars = 0;
         glGetShaderiv(m_shaderHandle, GL_INFO_LOG_LENGTH, &length);
-        std::unique_ptr<char[]> log = std::make_unique<char[]>(length);
-        glGetShaderInfoLog(m_shaderHandle, length, &nchars, &log[0]);
-        return std::string(log.get());
+        std::vector<char> log(length);
+        glGetShaderInfoLog(m_shaderHandle, length, &nchars, log.data());
+        return std::string(log.begin(), log.end());
 }
 
 } // namespace glwrapping

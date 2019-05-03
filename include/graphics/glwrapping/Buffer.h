@@ -12,8 +12,10 @@ template<typename T>
 class Buffer
 {
 public:
+        Buffer();
         Buffer(GLenum type, std::unique_ptr<T[]> buffer, unsigned int num);
         virtual ~Buffer();
+        Buffer(Buffer&& other) = default;
 
         virtual void bind() const;
 
@@ -32,9 +34,9 @@ private:
 
 template<typename T>
 Buffer<T>::Buffer(GLenum type, std::unique_ptr<T[]> buffer, unsigned int num) :
-        m_type(type),
         m_numElements(num),
         m_totalSize(num * sizeof(T)),
+        m_type(type),
         m_buffer(std::move(buffer))
 {
         glGenBuffers(1, &m_handle);
