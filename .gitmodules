@@ -1,6 +1,0 @@
-[submodule "lib/googletest"]
-	path = lib/googletest
-	url = https://github.com/google/googletest
-[submodule "lib/glbinding"]
-	path = lib/glbinding
-	url = https://github.com/cginternals/glbinding

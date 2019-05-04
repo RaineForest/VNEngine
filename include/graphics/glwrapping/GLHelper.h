@@ -24,15 +24,17 @@ void glHelperCall(std::string func, Args ... args)
         // auto close on scope exit
         auto deleter = [](void* h) { dlclose(h); };
         // open the shared library
+#ifndef VNGINE_OPENGL_LIB
+#error VNGINE_OPENGL_LIB must be defined
+#endif
         std::unique_ptr<void, decltype(deleter)> handle(
-                // TODO: cross-platform and configurable lib name
-                dlopen("libGL.so", RTLD_LAZY | RTLD_NOLOAD | RTLD_NODELETE),
+                dlopen(VNGINE_OPENGL_LIB, RTLD_LAZY | RTLD_NOLOAD | RTLD_NODELETE),
                 deleter
         );
 
         if (handle == nullptr) {
                 std::stringstream s;
-                s << "Could not open handle to libGL.so: " << dlerror();
+                s << "Could not open handle to " << VNGINE_OPENGL_LIB << ": " << dlerror();
                 throw std::runtime_error(s.str());
         }
 
