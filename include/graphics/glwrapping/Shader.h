@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include <GL/glew.h>
+#include "glbinding/gl/gl.h"
 #include <string>
 
 namespace vngine {
@@ -11,18 +11,18 @@ namespace glwrapping {
 class Shader
 {
 public:
-        Shader(GLenum shaderType, std::string src);
+        Shader(gl::GLenum shaderType, std::string src);
 
         virtual ~Shader();
 
-        GLuint getHandle() const;
+        gl::GLuint getHandle() const;
 
 private:
         std::string getError() const;
 
         std::string m_source;
-        GLuint m_shaderHandle;
-        GLenum m_type;
+        gl::GLuint m_shaderHandle;
+        gl::GLenum m_type;
 };
 
 } // namespace glwrapping

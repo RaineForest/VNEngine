@@ -1,11 +1,12 @@
 
 #pragma once
 
-#include <array>
-#include <GL/glew.h>
-#include <memory>
-
 #include "graphics/glwrapping/Buffer.h"
+
+#include "glbinding/gl/gl.h"
+
+#include <array>
+#include <memory>
 
 namespace vngine {
 namespace graphics {
@@ -15,7 +16,7 @@ template<typename T, unsigned int N>
 class MultiAttribBuffer : public Buffer<T>
 {
 public:
-        MultiAttribBuffer(GLenum type, std::unique_ptr<T[]> buffer, unsigned int num,
+        MultiAttribBuffer(gl::GLenum type, std::unique_ptr<T[]> buffer, unsigned int num,
                           std::array<unsigned int, N> numComponents,
                           std::array<unsigned int, N> stride,
                           std::array<void*, N> offset);
@@ -34,7 +35,7 @@ private:
 
 template<typename T, unsigned int N>
 MultiAttribBuffer<T, N>::MultiAttribBuffer(
-        GLenum type,
+        gl::GLenum type,
         std::unique_ptr<T[]> buffer,
         unsigned int num,
         std::array<unsigned int, N> numComponents,

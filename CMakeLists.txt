@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.10.0)
 
 project(VNgine)
 
@@ -6,14 +6,20 @@ set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/build)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
+set(OpenGL_GL_PREFERENCE "GLVND")
 find_package(OpenGL REQUIRED)
-find_package(GLEW REQUIRED)
 find_package(glfw3 3.2 REQUIRED)
 
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ggdb -Wall -Wextra -Werror")
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -rdynamic -Wall -Wextra -Werror")
 
 include_directories(${PROJECT_SOURCE_DIR}/include)
+
+set(OPTION_BUILD_TOOLS OFF)
+set(OPTION_BUILD_EXAMPLES OFF)
+add_subdirectory(${PROJECT_SOURCE_DIR}/lib/glbinding)
+include_directories(${PROJECT_SOURCE_DIR}/lib/glbinding/source/glbinding/include)
+include_directories(${PROJECT_BINARY_DIR}/lib/glbinding/source/glbinding/include)
 
 set(VNGINE_SOURCES
 	"src/graphics/glwrapping/Shader.cpp"
@@ -21,11 +27,11 @@ set(VNGINE_SOURCES
 	"src/init/GameInit3D.cpp"
 )
 
-set(LIBS ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY} ${GLEW_LIBRARY} glfw -ldl)
+set(LIBS ${OPENGL_opengl_LIBRARY} ${OPENGL_gl_LIBRARY} glfw dl)
 
 add_library(vngine STATIC ${VNGINE_SOURCES})
 
-target_link_libraries(vngine ${LIBS})
+target_link_libraries(vngine ${LIBS} glbinding glbinding-aux)
 
 #######################################################
 ####################### Testing #######################

@@ -2,6 +2,10 @@
 #include "init/GameInit3D.h"
 #include "Exceptions.h"
 
+#include <glbinding/glbinding.h>
+#include <glbinding/gl/gl.h>
+#include <GLFW/glfw3.h>
+
 #include <functional>
 
 namespace vngine {
@@ -45,12 +49,16 @@ GameInit3D::GameInit3D(bool fullscreen, int width, int height, std::string title
 	}
 
 	glfwMakeContextCurrent(window.get());
-	glewExperimental=true;
-	if (glewInit() != GLEW_OK) {
-		throw std::runtime_error("Failed to init GLEW");
-	}
 
 	glfwSetInputMode(window.get(), GLFW_STICKY_KEYS, GL_TRUE);
+
+	glbinding::initialize(glfwGetProcAddress);
+	glbinding::setAfterCallback([](const glbinding::FunctionCall&){
+		GLenum error = glGetError();
+		if (error != GL_NO_ERROR) {
+			throw GLException(std::to_string(static_cast<unsigned int>(error)));
+		}
+	});
 
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 }
@@ -69,10 +77,6 @@ void GameInit3D::start()
 			throw vngine::GLException("here1");
 		}
 	do {
-		GLenum error = glGetError();
-		if (error != GL_NO_ERROR) {
-			throw vngine::GLException(std::string(reinterpret_cast<const char*>(gluErrorString(error))));
-		}
 		std::chrono::high_resolution_clock::time_point next = std::chrono::high_resolution_clock::now();
 		update(std::chrono::duration_cast<std::chrono::milliseconds>(next - last));
 		last = next;

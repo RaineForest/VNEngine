@@ -5,6 +5,7 @@
 #include "gmock/gmock.h"
 
 using namespace vngine::graphics::glwrapping;
+using namespace gl;
 
 TEST(GLHelperTest, TypeId)
 {
