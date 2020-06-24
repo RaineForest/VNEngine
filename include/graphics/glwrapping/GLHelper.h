@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include "Exceptions.h"
+
 #include <cassert>
 #include <dlfcn.h>
 #include <functional>
@@ -10,6 +12,8 @@
 #include <stdexcept>
 #include <string>
 #include <utility>
+
+#define GL_CHECK(X) (X); {GLenum _error = glGetError(); if (_error != GL_NO_ERROR) {throw vngine::GLException(std::string(reinterpret_cast<const char*>(gluErrorString(_error)))); }}
 
 namespace vngine {
 namespace graphics {
@@ -48,43 +52,43 @@ void glHelperCall(std::string func, Args ... args)
         }
 
         // call it
-        boundFunc(std::forward<Args>(args)...);
+        boundFunc(args...);
 }
 
 // default doober, should not be used
 template<typename T> inline
-std::string glTypeToIdent(T)
+std::string glTypeToIdent(const T)
 {
         assert(false /* unsupported type */);
         return std::string(typeid(T).name());
 }
 
 template<> inline
-std::string glTypeToIdent<int>(int)
+std::string glTypeToIdent<const int>(const int)
 {
         return std::string("i");
 }
 
 template<> inline
-std::string glTypeToIdent<float>(float)
+std::string glTypeToIdent<const float>(const float)
 {
         return std::string("f");
 }
 
 template<> inline
-std::string glTypeToIdent<unsigned int>(unsigned int)
+std::string glTypeToIdent<const unsigned int>(const unsigned int)
 {
         return std::string("ui");
 }
 
 template<> inline
-std::string glTypeToIdent<short>(short)
+std::string glTypeToIdent<const short>(const short)
 {
         return std::string("s");
 }
 
 template<> inline
-std::string glTypeToIdent<double>(double)
+std::string glTypeToIdent<const double>(const double)
 {
         return std::string("d");
 }
@@ -103,15 +107,15 @@ std::string glTypeToIdent<double>(double)
  * \param meatyArity the arity of the meaty params
  * \param args ALL of the params to the function
  */
-template<typename T, typename ... Args>
-void glHelper(std::string func, unsigned int meatyArity, Args ... args) {
-        glHelperCall(func + std::to_string(meatyArity) + glTypeToIdent<T>(0), std::forward<Args>(args)...);
+template<typename T, typename ...Args>
+void glHelper(std::string func, unsigned int meatyArity, Args... args) {
+        glHelperCall(func + std::to_string(meatyArity) + glTypeToIdent<T>(0), args...);
 }
 
-template<typename T, typename ... Args>
-void glHelper(std::string func, unsigned int meatyArity, T* array, Args ... args) {
+template<typename T, typename ...Args>
+void glHelperArray(std::string func, unsigned int meatyArity, T* array, Args... args) {
         glHelperCall(func + std::to_string(meatyArity) + glTypeToIdent<T>(0) + std::string("v"),
-                     std::forward<Args>(args)...,
+                     args...,
                      array);
 }
 

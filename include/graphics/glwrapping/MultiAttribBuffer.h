@@ -1,11 +1,13 @@
 
 #pragma once
 
+#include "graphics/glwrapping/Buffer.h"
+
 #include <array>
 #include <GL/glew.h>
 #include <memory>
+#include <stdexcept>
 
-#include "graphics/glwrapping/Buffer.h"
 
 namespace vngine {
 namespace graphics {

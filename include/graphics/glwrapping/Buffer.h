@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include "graphics/glwrapping/GLHelper.h"
+
 #include <GL/glew.h>
 #include <memory>
 
@@ -39,9 +41,9 @@ Buffer<T>::Buffer(GLenum type, std::unique_ptr<T[]> buffer, unsigned int num) :
         m_type(type),
         m_buffer(std::move(buffer))
 {
-        glGenBuffers(1, &m_handle);
-        glBindBuffer(m_type, m_handle);
-        glBufferData(m_type, m_totalSize, m_buffer.get(), GL_STATIC_DRAW);
+        GL_CHECK(glGenBuffers(1, &m_handle));
+        GL_CHECK(glBindBuffer(m_type, m_handle));
+        GL_CHECK(glBufferData(m_type, m_totalSize, m_buffer.get(), GL_STATIC_DRAW));
 }
 
 template<typename T>
@@ -53,7 +55,7 @@ Buffer<T>::~Buffer()
 template<typename T>
 void Buffer<T>::bind() const
 {
-        glBindBuffer(m_type, m_handle);
+        GL_CHECK(glBindBuffer(m_type, m_handle));
 }
 
 template<typename T>

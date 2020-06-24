@@ -52,7 +52,8 @@ GameInit3D::GameInit3D(bool fullscreen, int width, int height, std::string title
 
 	glfwSetInputMode(window.get(), GLFW_STICKY_KEYS, GL_TRUE);
 
-	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+	glEnable(GL_DEPTH_TEST);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 }
 	
 GameInit3D::~GameInit3D()
@@ -64,10 +65,10 @@ void GameInit3D::start()
 {
 
 	std::chrono::high_resolution_clock::time_point last = std::chrono::high_resolution_clock::now();
-		GLenum error1 = glGetError();
-		if (error1 != GL_NO_ERROR) {
-			throw vngine::GLException("here1");
-		}
+	GLenum error1 = glGetError();
+	if (error1 != GL_NO_ERROR) {
+		throw vngine::GLException("Oh geez.");
+	}
 	do {
 		GLenum error = glGetError();
 		if (error != GL_NO_ERROR) {
@@ -76,6 +77,11 @@ void GameInit3D::start()
 		std::chrono::high_resolution_clock::time_point next = std::chrono::high_resolution_clock::now();
 		update(std::chrono::duration_cast<std::chrono::milliseconds>(next - last));
 		last = next;
+		error = glGetError();
+		if (error != GL_NO_ERROR) {
+			printf("here2");
+			throw vngine::GLException(std::string(reinterpret_cast<const char*>(gluErrorString(error))));
+		}
 
 		draw();
 
@@ -92,7 +98,7 @@ void GameInit3D::add(std::unique_ptr<graphics::IDrawable<float, 3>> obj)
 
 void GameInit3D::draw()
 {
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	for (auto& drawable : drawables) {
 		drawable->draw();
 	}

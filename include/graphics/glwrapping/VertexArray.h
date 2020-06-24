@@ -1,8 +1,8 @@
 
 #pragma once
 
+#include "graphics/glwrapping/GLHelper.h"
 #include "graphics/glwrapping/MultiAttribBuffer.h"
-#include "graphics/glwrapping/ShaderProgram.h"
 
 #include <GL/glew.h>
 #include <memory>
@@ -16,7 +16,7 @@ class VertexArray
 {
 public:
         VertexArray();
-        ~VertexArray();
+        virtual ~VertexArray();
         VertexArray(const VertexArray&) = delete;
         VertexArray& operator=(const VertexArray&) = delete;
         VertexArray(VertexArray&&) = default;
@@ -33,13 +33,13 @@ private:
 template<typename T, unsigned int N>
 void VertexArray::setBuffer(GLuint handle, const MultiAttribBuffer<T, N>& buf, unsigned int subBuffer) const
 {
-        glVertexAttribPointer(handle,
+        GL_CHECK(glVertexAttribPointer(handle,
                               buf.getNumComponents(subBuffer),
                               glTypeToEnum<T>(0),
                               GL_FALSE,
                               buf.getStride(subBuffer),
-                              buf.getOffset(subBuffer)); 
-        glEnableVertexAttribArray(handle);
+                              buf.getOffset(subBuffer))); 
+        GL_CHECK(glEnableVertexAttribArray(handle));
 }
 
 } // namespace glwrapping

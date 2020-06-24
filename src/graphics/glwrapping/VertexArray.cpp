@@ -7,7 +7,7 @@ namespace glwrapping {
 
 VertexArray::VertexArray()
 {
-        glGenVertexArrays(1, &m_vao); 
+        GL_CHECK(glGenVertexArrays(1, &m_vao)); 
 }
 
 VertexArray::~VertexArray()
@@ -17,7 +17,7 @@ VertexArray::~VertexArray()
 
 void VertexArray::bind() const
 {
-        glBindVertexArray(m_vao);
+        GL_CHECK(glBindVertexArray(m_vao));
 }
 
 } // namespace glwrapping
