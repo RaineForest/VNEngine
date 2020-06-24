@@ -5,8 +5,6 @@
 #include <memory>
 #include <vector>
 
-using namespace gl;
-
 namespace vngine {
 namespace graphics {
 namespace glwrapping {
@@ -26,7 +24,7 @@ Shader::Shader(GLenum shaderType, std::string src) :
         glCompileShader(m_shaderHandle);
         GLint flag;
         glGetShaderiv(m_shaderHandle, GL_COMPILE_STATUS, &flag);
-        if (!flag) {
+        if (flag == GL_FALSE) {
                 std::string s("Shader Compile error:\n");
                 std::string err = getError();
                 s += err;

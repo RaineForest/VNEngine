@@ -1,13 +1,10 @@
 
 #pragma once
 
-#include "Exceptions.h"
-
-#include <glbinding/gl/gl.h>
-
 #include <cassert>
 #include <dlfcn.h>
 #include <functional>
+#include <GL/glew.h>
 #include <memory>
 #include <sstream>
 #include <stdexcept>
@@ -119,58 +116,58 @@ void glHelper(std::string func, unsigned int meatyArity, T* array, Args ... args
 }
 
 template<typename T> inline
-gl::GLenum glTypeToEnum(T)
+GLenum glTypeToEnum(T)
 {
         assert(false /* unsupported type */);
-        return static_cast<gl::GLenum>(0);
+        return 0;
 }
 
 template<> inline
-gl::GLenum glTypeToEnum<char>(char)
+GLenum glTypeToEnum<char>(char)
 {
-        return gl::GL_BYTE;
+        return GL_BYTE;
 }
 
 template<> inline
-gl::GLenum glTypeToEnum<unsigned char>(unsigned char)
+GLenum glTypeToEnum<unsigned char>(unsigned char)
 {
-        return gl::GL_UNSIGNED_BYTE;
+        return GL_UNSIGNED_BYTE;
 }
 
 template<> inline
-gl::GLenum glTypeToEnum<short>(short)
+GLenum glTypeToEnum<short>(short)
 {
-        return gl::GL_SHORT;
+        return GL_SHORT;
 }
 
 template<> inline
-gl::GLenum glTypeToEnum<unsigned short>(unsigned short)
+GLenum glTypeToEnum<unsigned short>(unsigned short)
 {
-        return gl::GL_UNSIGNED_SHORT;
+        return GL_UNSIGNED_SHORT;
 }
 
 template<> inline
-gl::GLenum glTypeToEnum<int>(int)
+GLenum glTypeToEnum<int>(int)
 {
-        return gl::GL_INT;
+        return GL_INT;
 }
 
 template<> inline
-gl::GLenum glTypeToEnum<unsigned int>(unsigned int)
+GLenum glTypeToEnum<unsigned int>(unsigned int)
 {
-        return gl::GL_UNSIGNED_INT;
+        return GL_UNSIGNED_INT;
 }
 
 template<> inline
-gl::GLenum glTypeToEnum<float>(float)
+GLenum glTypeToEnum<float>(float)
 {
-        return gl::GL_FLOAT;
+        return GL_FLOAT;
 }
 
 template<> inline
-gl::GLenum glTypeToEnum<double>(double)
+GLenum glTypeToEnum<double>(double)
 {
-        return gl::GL_DOUBLE;
+        return GL_DOUBLE;
 }
 
 } // namespace glwrapping

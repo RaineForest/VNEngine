@@ -4,7 +4,7 @@
 #include "graphics/glwrapping/MultiAttribBuffer.h"
 #include "graphics/glwrapping/ShaderProgram.h"
 
-#include "glbinding/gl/gl.h"
+#include <GL/glew.h>
 #include <memory>
 #include <string>
 
@@ -15,8 +15,8 @@ namespace glwrapping {
 class VertexArray
 {
 public:
-        VertexArray() = default;
-        ~VertexArray() = default;
+        VertexArray();
+        ~VertexArray();
         VertexArray(const VertexArray&) = delete;
         VertexArray& operator=(const VertexArray&) = delete;
         VertexArray(VertexArray&&) = default;
@@ -24,22 +24,22 @@ public:
         void bind() const;
 
         template<typename T, unsigned int N>
-        void setBuffer(gl::GLuint handle, const MultiAttribBuffer<T, N>& buf, unsigned int subBuffer) const;
+        void setBuffer(GLuint handle, const MultiAttribBuffer<T, N>& buf, unsigned int subBuffer) const;
 
 private:
-        gl::GLuint m_vao{0};
+        GLuint m_vao;
 };
 
 template<typename T, unsigned int N>
-void VertexArray::setBuffer(gl::GLuint handle, const MultiAttribBuffer<T, N>& buf, unsigned int subBuffer) const
+void VertexArray::setBuffer(GLuint handle, const MultiAttribBuffer<T, N>& buf, unsigned int subBuffer) const
 {
-        gl::glVertexAttribPointer(handle,
-                buf.getNumComponents(subBuffer),
-                glTypeToEnum<T>(0),
-                gl::GL_FALSE,
-                buf.getStride(subBuffer),
-                buf.getOffset(subBuffer)); 
-        gl::glEnableVertexAttribArray(handle);
+        glVertexAttribPointer(handle,
+                              buf.getNumComponents(subBuffer),
+                              glTypeToEnum<T>(0),
+                              GL_FALSE,
+                              buf.getStride(subBuffer),
+                              buf.getOffset(subBuffer)); 
+        glEnableVertexAttribArray(handle);
 }
 
 } // namespace glwrapping

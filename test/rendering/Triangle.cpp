@@ -3,18 +3,13 @@
 #include "graphics/glwrapping/GLHelper.h"
 #include "graphics/glwrapping/Shader.h"
 #include "graphics/glwrapping/ShaderProgram.h"
-#include "graphics/glwrapping/VertexArray.h"
 #include "graphics/IDrawable.h"
 #include "init/GameInit3D.h"
-
-#include "glbinding/gl/gl.h"
 
 #include <cstring>
 #include <iostream>
 #include <memory>
 #include <string>
-
-using namespace gl;
 
 std::string basicVertShader = R"(
 #version 330 core
@@ -54,7 +49,7 @@ public:
                 memcpy(verts.get(), vertices, sizeof(float)*9);
 
                 vertBuffer = std::make_unique<vngine::graphics::glwrapping::MultiAttribBuffer<float, 1>>(
-                        gl::GLenum::GL_ARRAY_BUFFER,
+                        GL_ARRAY_BUFFER,
                         std::move(verts),
                         3,
                         std::array<unsigned int, 1>({3}),
@@ -62,17 +57,16 @@ public:
                         std::array<void*, 1>({0})
                 );
 
-                vngine::graphics::glwrapping::Shader vertShader(gl::GLenum::GL_VERTEX_SHADER, basicVertShader);
-                vngine::graphics::glwrapping::Shader fragShader(gl::GLenum::GL_FRAGMENT_SHADER, basicFragShader);
+                vngine::graphics::glwrapping::Shader vertShader(GL_VERTEX_SHADER, basicVertShader);
+                vngine::graphics::glwrapping::Shader fragShader(GL_FRAGMENT_SHADER, basicFragShader);
                 program.setShaders(std::vector<vngine::graphics::glwrapping::Shader>({vertShader, fragShader}));
         }
 
         virtual void draw() const override
         {
                 program.use();
-                vngine::graphics::glwrapping::VertexArray array;
                 vertBuffer->bind();
-                program.setInput("vPosition", array, *vertBuffer, 0);
+                program.setInput("vPosition", *vertBuffer, 0);
                 glDrawArrays(GL_TRIANGLES, 0, 3);
         }
 

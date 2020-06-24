@@ -5,11 +5,11 @@
 #include "init/IGameInit.h"
 
 #include <functional>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include <memory>
 #include <string>
 #include <vector>
-
-struct GLFWwindow;
 
 namespace vngine {
 namespace init {

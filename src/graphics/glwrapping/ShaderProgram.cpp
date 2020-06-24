@@ -7,8 +7,6 @@
 #include <memory>
 #include <vector>
 
-using namespace gl;
-
 namespace vngine {
 namespace graphics {
 namespace glwrapping {
@@ -36,7 +34,7 @@ void ShaderProgram::setShaders(const std::vector<Shader>& s)
         glLinkProgram(m_programHandle);
         GLint flag;
         glGetProgramiv(m_programHandle,  GL_LINK_STATUS, &flag);
-        if (!flag) {
+        if (flag == GL_FALSE) {
                 std::string err("Shader program link error:\n");
                 err += getError();
                 throw GLException(err);
