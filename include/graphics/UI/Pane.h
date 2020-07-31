@@ -10,8 +10,7 @@ namespace ui {
 /**
  * Basic container for holding other drawables
  */
-template<typename T>
-class Pane : public IContainer<T>
+class Pane : public IContainer
 {
 public:
         Pane()
@@ -22,15 +21,15 @@ public:
         {
         }
 
-        virtual void add(IDrawable* obj)
+        virtual void add(IDrawable& obj)
         {
         }
 
-        virtual void remove(IDrawable* obj)
+        virtual void remove(IDrawable& obj)
         {
         }
         
-        virtual void draw() const
+        virtual void draw(const ICamera& camera) const
         {
         }
 };

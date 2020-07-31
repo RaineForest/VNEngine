@@ -1,13 +1,14 @@
 
 #pragma once
 
+#include "graphics/ICamera.h"
+
 namespace vngine {
 namespace graphics {
 
 /**
  * Interface for describing drawable objects
  */
-template<typename T, unsigned int Dim>
 class IDrawable
 {
 public:
@@ -16,7 +17,7 @@ public:
         /**
          * Draws the object 
          */
-        virtual void draw() const = 0;
+        virtual void draw(const ICamera& camera) const = 0;
 };
 
 } // namespace graphics

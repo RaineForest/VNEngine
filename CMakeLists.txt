@@ -51,7 +51,12 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
 set(VNGINE_SOURCES
 	"src/graphics/glwrapping/Shader.cpp"
 	"src/graphics/glwrapping/ShaderProgram.cpp"
-	"src/graphics/glwrapping/VertexArray.cpp"
+  "src/graphics/glwrapping/VertexArray.cpp"
+  "src/graphics/ICamera.cpp"
+  "src/graphics/IModel.cpp"
+  "src/graphics/PerspectiveCamera.cpp"
+  "src/graphics/RawModel.cpp"
+  "src/graphics/Texture.cpp"
 	"src/init/GameInit3D.cpp"
 )
 
@@ -81,3 +86,6 @@ target_link_libraries(vngine_render_gameinit ${LIBS} vngine)
 
 add_executable(vngine_render_triangle "test/rendering/Triangle.cpp")
 target_link_libraries(vngine_render_triangle ${LIBS} vngine)
+
+add_executable(vngine_render_triangle_model "test/rendering/TriangleModel.cpp")
+target_link_libraries(vngine_render_triangle_model ${LIBS} vngine)

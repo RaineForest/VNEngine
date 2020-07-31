@@ -16,7 +16,8 @@ GameInit3D::GameInit3D(bool fullscreen, int width, int height, std::string title
 	fullscreen(fullscreen),
 	width(width),
 	height(height),
-	title(title)
+	title(title),
+	camera(45.0f, static_cast<float>(width)/static_cast<float>(height), 0.1f, 100.0f)
 {
 	if (!glfwInit()) {
 		throw std::runtime_error("Failed to init GLFW");
@@ -53,6 +54,7 @@ GameInit3D::GameInit3D(bool fullscreen, int width, int height, std::string title
 	glfwSetInputMode(window.get(), GLFW_STICKY_KEYS, GL_TRUE);
 
 	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 }
 	
@@ -91,7 +93,7 @@ void GameInit3D::start()
 	} while (glfwGetKey(window.get(), GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(window.get()) == 0);
 }
 
-void GameInit3D::add(std::unique_ptr<graphics::IDrawable<float, 3>> obj)
+void GameInit3D::add(std::unique_ptr<graphics::IDrawable> obj)
 {
 	drawables.push_back(std::move(obj));
 }
@@ -100,7 +102,7 @@ void GameInit3D::draw()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	for (auto& drawable : drawables) {
-		drawable->draw();
+		drawable->draw(camera);
 	}
 }
 

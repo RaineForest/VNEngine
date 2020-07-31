@@ -10,8 +10,7 @@ namespace ui {
 /**
  * Drawable container that holds other drawable objects
  */
-template<typename T>
-class IContainer : public IDrawable<T, 2>
+class IContainer : public IDrawable
 {
 public:
         virtual ~IContainer() = 0;
@@ -20,13 +19,13 @@ public:
          * add - add an element to the container
          * \param obj the object to add
          */
-        virtual void add(IDrawable<T, 2>& obj) = 0;
+        virtual void add(IDrawable& obj) = 0;
 
         /**
          * remove - remove an element from the container
          * \param obj the object to remove
          */
-        virtual void remove(IDrawable<T, 2>& obj) = 0;
+        virtual void remove(IDrawable& obj) = 0;
 };
 
 } // namespace ui

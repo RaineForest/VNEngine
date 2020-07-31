@@ -46,7 +46,7 @@ static constexpr float vertices[9] = {
         cosf((11.0f / 6.0f) * M_PI),  sinf((11.0f / 6.0f) * M_PI), 0.0f,
 };
 
-class Triangle : public vngine::graphics::IDrawable<float, 3>
+class Triangle : public vngine::graphics::IDrawable
 {
 public:
         Triangle() :
@@ -77,7 +77,7 @@ public:
                 model = glm::mat4(1.0f);
         }
 
-        virtual void draw() const override
+        virtual void draw(const vngine::graphics::ICamera&) const override
         {
                 program.use();
                 program.setUniformMatrix("projection", glm::value_ptr(projection), 4);

@@ -2,6 +2,7 @@
 #pragma once
 
 #include "graphics/IDrawable.h"
+#include "graphics/PerspectiveCamera.h"
 #include "init/IGameInit.h"
 
 #include <functional>
@@ -28,7 +29,7 @@ public:
 
 	virtual void start();
 
-	void add(std::unique_ptr<graphics::IDrawable<float, 3>> obj);
+	void add(std::unique_ptr<graphics::IDrawable> obj);
 
 	virtual void draw();
 
@@ -40,9 +41,11 @@ private:
 	int height;
 	std::string title;
 
-	std::vector<std::unique_ptr<graphics::IDrawable<float, 3>>> drawables;
+	std::vector<std::unique_ptr<graphics::IDrawable>> drawables;
 
 	std::unique_ptr<GLFWwindow, std::function<void(GLFWwindow*)>> window;
+
+	PerspectiveCamera camera;
 };
 
 } //namespace init
