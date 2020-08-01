@@ -46,7 +46,7 @@ GameInit3D::GameInit3D(bool fullscreen, int width, int height, std::string title
 	}
 
 	glfwMakeContextCurrent(window.get());
-	glewExperimental=true;
+	glewExperimental = true;
 	if (glewInit() != GLEW_OK) {
 		throw std::runtime_error("Failed to init GLEW");
 	}
