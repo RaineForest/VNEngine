@@ -12,12 +12,12 @@ void errorHandler(int error, const char* desc)
 	throw GLException(std::string(desc) + " (" + std::to_string(error) + ")");
 }
 
-GameInit3D::GameInit3D(bool fullscreen, int width, int height, std::string title) :
+GameInit3D::GameInit3D(std::unique_ptr<ICamera> camera, bool fullscreen, int width, int height, std::string title) :
+	camera{std::move(camera)},
 	fullscreen(fullscreen),
 	width(width),
 	height(height),
-	title(title),
-	camera(45.0f, static_cast<float>(width)/static_cast<float>(height), 0.1f, 100.0f)
+	title(title)
 {
 	if (!glfwInit()) {
 		throw std::runtime_error("Failed to init GLFW");
@@ -54,7 +54,7 @@ GameInit3D::GameInit3D(bool fullscreen, int width, int height, std::string title
 	glfwSetInputMode(window.get(), GLFW_STICKY_KEYS, GL_TRUE);
 
 	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LESS);
+	glDepthFunc(GL_LEQUAL);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 }
 	
@@ -81,7 +81,6 @@ void GameInit3D::start()
 		last = next;
 		error = glGetError();
 		if (error != GL_NO_ERROR) {
-			printf("here2");
 			throw vngine::GLException(std::string(reinterpret_cast<const char*>(gluErrorString(error))));
 		}
 
@@ -102,7 +101,7 @@ void GameInit3D::draw()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	for (auto& drawable : drawables) {
-		drawable->draw(camera);
+		drawable->draw(*camera);
 	}
 }
 

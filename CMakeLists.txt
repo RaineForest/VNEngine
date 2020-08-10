@@ -13,6 +13,7 @@ find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(glfw3 3.2 REQUIRED)
 find_package(glm REQUIRED)
+find_package(Freetype REQUIRED)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ggdb -Wall -Wextra -Werror -rdynamic")
@@ -50,21 +51,24 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
 
 set(VNGINE_SOURCES
   "src/event/KeyListener.cpp"
+  "src/graphics/FreetypeFont.cpp"
 	"src/graphics/glwrapping/Shader.cpp"
 	"src/graphics/glwrapping/ShaderProgram.cpp"
   "src/graphics/glwrapping/VertexArray.cpp"
   "src/graphics/ICamera.cpp"
   "src/graphics/IModel.cpp"
+  "src/graphics/OrthographicCamera.cpp"
   "src/graphics/PerspectiveCamera.cpp"
   "src/graphics/RawModel.cpp"
   "src/graphics/Texture.cpp"
 	"src/init/GameInit3D.cpp"
 )
 
-set(LIBS OpenGL::GL OpenGL::GLU GLEW glm glfw -ldl)
+set(LIBS OpenGL::GL OpenGL::GLU GLEW glm glfw -ldl Freetype::Freetype)
 
 add_compile_definitions(VNGINE_OPENGL_LIB="$<IF:$<BOOL:${OPENGL_gl_LIBRARY}>,${OPENGL_gl_LIBRARY},${OPENGL_opengl_LIBRARY}>")
 add_library(vngine STATIC ${VNGINE_SOURCES})
+target_include_directories(vngine PUBLIC ${CMAKE_SOURCE_DIR}/include PRIVATE FREETYPE_INCLUDE_DIRS)
 target_link_libraries(vngine ${LIBS})
 
 #######################################################
@@ -75,7 +79,8 @@ enable_testing()
 
 set(VNGINE_TESTS
 	"test/unit/main.cpp"
-	"test/unit/GLHelperTest.cpp"
+  "test/unit/ExceptionTest.cpp"
+  "test/unit/GLHelperTest.cpp"
 )
 
 add_executable(vngine_unit ${VNGINE_TESTS})
@@ -93,3 +98,6 @@ target_link_libraries(vngine_render_triangle_model ${LIBS} vngine)
 
 add_executable(vngine_event_key "test/event/KeyTest.cpp")
 target_link_libraries(vngine_event_key ${LIBS} vngine pthread)
+
+add_executable(vngine_render_font "test/rendering/FontTest.cpp")
+target_link_libraries(vngine_render_font ${LIBS} vngine)

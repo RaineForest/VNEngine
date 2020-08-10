@@ -1,13 +1,15 @@
 
 #include "graphics/Texture.h"
 
+#include <iostream>
+
 namespace vngine {
 namespace graphics {
 
-Texture::Texture(const std::filesystem::path& file, const ITextureLoader& l) {
-        glGenTextures(1, &texId);
+Texture::Texture(const ITextureLoader& l) {
+        GL_CHECK(glGenTextures(1, &texId));
         bind();
-        l.load(file); 
+        l.load(); 
 }
 
 Texture::~Texture() {
@@ -15,11 +17,7 @@ Texture::~Texture() {
 }
 
 void Texture::bind() const {
-        glBindTexture(GL_TEXTURE_2D, texId);
-}
-
-GLuint Texture::getId() const {
-        return texId;
+        GL_CHECK(glBindTexture(GL_TEXTURE_2D, texId));
 }
 
 } // namespace graphics

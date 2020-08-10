@@ -10,12 +10,10 @@ namespace graphics {
 
 class Texture {
 public:
-        Texture(const std::filesystem::path& file, const ITextureLoader& l);
+        Texture(const ITextureLoader& l);
         virtual ~Texture();
 
         void bind() const;
-
-        GLuint getId() const;
 
 private:
         GLuint texId;

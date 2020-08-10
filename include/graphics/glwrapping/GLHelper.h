@@ -57,38 +57,37 @@ void glHelperCall(std::string func, Args ... args)
 
 // default doober, should not be used
 template<typename T> inline
-std::string glTypeToIdent(const T)
+std::string glTypeToIdent(const T&)
 {
-        assert(false /* unsupported type */);
-        return std::string(typeid(T).name());
+        throw GLException(std::string("glTypeToIdent: unknown type ") + typeid(T).name());
 }
 
 template<> inline
-std::string glTypeToIdent<const int>(const int)
+std::string glTypeToIdent<int>(const int&)
 {
         return std::string("i");
 }
 
 template<> inline
-std::string glTypeToIdent<const float>(const float)
+std::string glTypeToIdent<float>(const float&)
 {
         return std::string("f");
 }
 
 template<> inline
-std::string glTypeToIdent<const unsigned int>(const unsigned int)
+std::string glTypeToIdent<unsigned int>(const unsigned int&)
 {
         return std::string("ui");
 }
 
 template<> inline
-std::string glTypeToIdent<const short>(const short)
+std::string glTypeToIdent<short>(const short&)
 {
         return std::string("s");
 }
 
 template<> inline
-std::string glTypeToIdent<const double>(const double)
+std::string glTypeToIdent<double>(const double&)
 {
         return std::string("d");
 }
@@ -113,63 +112,62 @@ void glHelper(std::string func, unsigned int meatyArity, Args... args) {
 }
 
 template<typename T, typename ...Args>
-void glHelperArray(std::string func, unsigned int meatyArity, T* array, Args... args) {
+void glHelperArray(std::string func, unsigned int meatyArity, const T* array, Args... args) {
         glHelperCall(func + std::to_string(meatyArity) + glTypeToIdent<T>(0) + std::string("v"),
                      args...,
                      array);
 }
 
 template<typename T> inline
-GLenum glTypeToEnum(T)
+GLenum glTypeToEnum(const T&)
 {
-        assert(false /* unsupported type */);
-        return 0;
+        throw GLException(std::string("glTypeToEnum: unknown type ") + typeid(T).name());
 }
 
 template<> inline
-GLenum glTypeToEnum<char>(char)
+GLenum glTypeToEnum<char>(const char&)
 {
         return GL_BYTE;
 }
 
 template<> inline
-GLenum glTypeToEnum<unsigned char>(unsigned char)
+GLenum glTypeToEnum<unsigned char>(const unsigned char&)
 {
         return GL_UNSIGNED_BYTE;
 }
 
 template<> inline
-GLenum glTypeToEnum<short>(short)
+GLenum glTypeToEnum<short>(const short&)
 {
         return GL_SHORT;
 }
 
 template<> inline
-GLenum glTypeToEnum<unsigned short>(unsigned short)
+GLenum glTypeToEnum<unsigned short>(const unsigned short&)
 {
         return GL_UNSIGNED_SHORT;
 }
 
 template<> inline
-GLenum glTypeToEnum<int>(int)
+GLenum glTypeToEnum<int>(const int&)
 {
         return GL_INT;
 }
 
 template<> inline
-GLenum glTypeToEnum<unsigned int>(unsigned int)
+GLenum glTypeToEnum<unsigned int>(const unsigned int&)
 {
         return GL_UNSIGNED_INT;
 }
 
 template<> inline
-GLenum glTypeToEnum<float>(float)
+GLenum glTypeToEnum<float>(const float&)
 {
         return GL_FLOAT;
 }
 
 template<> inline
-GLenum glTypeToEnum<double>(double)
+GLenum glTypeToEnum<double>(const double&)
 {
         return GL_DOUBLE;
 }

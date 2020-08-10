@@ -19,6 +19,7 @@ class GameInit3D : public IGameInit
 {
 public:
 	GameInit3D(
+		std::unique_ptr<ICamera> camera = std::make_unique<PerspectiveCamera>(45.0f, static_cast<float>(1280)/static_cast<float>(720), 0.1f, 100.0f),
 		bool fullscreen = false, 
 		int width = 1280,
 		int height = 720,
@@ -36,6 +37,7 @@ public:
 	virtual void update(std::chrono::milliseconds dt);
 
 private:
+	std::unique_ptr<ICamera> camera;
 	bool fullscreen;
 	int width;
 	int height;
@@ -45,7 +47,6 @@ private:
 
 	std::unique_ptr<GLFWwindow, std::function<void(GLFWwindow*)>> window;
 
-	PerspectiveCamera camera;
 };
 
 } //namespace init

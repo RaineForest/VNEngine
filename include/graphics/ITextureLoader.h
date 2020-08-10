@@ -9,7 +9,7 @@ class ITextureLoader {
 public:
         virtual ~ITextureLoader() = default;
 
-        virtual void load(const std::filesystem::path& file) const = 0;
+        virtual void load() const = 0;
 };
 
 } // namespace graphics

@@ -24,10 +24,10 @@ public:
 
         void use() const;
 
+        template<typename ...T>
+        void setUniform(const std::string& binding, T... v) const;
         template<typename T>
-        void setUniform(const std::string& binding, T* v, unsigned int dim, unsigned int N) const;
-        template<typename T>
-        void setUniformMatrix(std::string binding, T* v, unsigned int dim) const;
+        void setUniformMatrix(std::string binding, const T* v, unsigned int dim) const;
 
         template<typename T, unsigned int N>
         void setInput(const std::string& binding, const VertexArray& array, const MultiAttribBuffer<T, N>& buf, unsigned int subBuffer) const;
@@ -39,15 +39,15 @@ private:
         GLuint m_programHandle;
 };
 
-template<typename T>
-void ShaderProgram::setUniform(const std::string& binding, T* v, unsigned int dim, unsigned int N) const
+template<typename ...T>
+void ShaderProgram::setUniform(const std::string& binding, T... v) const
 {
         GLuint var = GL_CHECK(glGetUniformLocation(m_programHandle, binding.c_str()));
-        GL_CHECK(glHelperArray<T>("glUniform", dim, v, var, N));
+        GL_CHECK(glHelper<T...>("glUniform", sizeof...(v), var, v...));
 }
 
 template<typename T>
-void ShaderProgram::setUniformMatrix(std::string binding, T* v, unsigned int dim) const
+void ShaderProgram::setUniformMatrix(std::string binding, const T* v, unsigned int dim) const
 {
         GLuint var = GL_CHECK(glGetUniformLocation(m_programHandle, binding.c_str()));
         GL_CHECK(glHelperArray<T>("glUniformMatrix", dim, v, var, static_cast<GLsizei>(1), static_cast<GLboolean>(GL_FALSE)));
@@ -58,6 +58,9 @@ template<typename T, unsigned int N>
 void ShaderProgram::setInput(const std::string& binding, const VertexArray& array, const MultiAttribBuffer<T, N>& buf, unsigned int subBuffer) const
 {
         GLuint handle = GL_CHECK(glGetAttribLocation(m_programHandle, binding.c_str()));
+        if (handle == static_cast<GLuint>(-1)) {
+                throw GLException("Shader Program: unknown or reserved binding");
+        }
         array.setBuffer(handle, buf, subBuffer);
 }
 

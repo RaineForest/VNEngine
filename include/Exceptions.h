@@ -23,7 +23,7 @@ public:
                         free(c);
                 });
 
-                std::string stackTrace;
+                std::string stackTrace = "";
                 for (int i = 0; i < actualSize; i++) {
                         stackTrace += std::string(symbols.get()[i]) + "\n";
                 }
@@ -33,7 +33,7 @@ public:
                 m_msg = ss.str();
         }
 
-        virtual ~VNgineException() {}
+        virtual ~VNgineException() = default;
 
         virtual const char* what() const noexcept override
         {
@@ -41,7 +41,7 @@ public:
         }
 
 private:
-        std::string m_msg;
+        std::string m_msg{""};
 };
 
 class GLException : public VNgineException

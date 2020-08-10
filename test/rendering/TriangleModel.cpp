@@ -39,9 +39,9 @@ void main() {
 )";
 
 static const std::vector<glm::vec3> vertices{
-        {cosf((3.0f / 6.0f) * M_PI),  sinf((3.0f / 6.0f) * M_PI), 0.0f},
-        {cosf((7.0f / 6.0f) * M_PI),  sinf((7.0f / 6.0f) * M_PI), 0.0f},
-        {cosf((11.0f / 6.0f) * M_PI),  sinf((11.0f / 6.0f) * M_PI), 0.0f}
+        {cosf((-3.0f / 6.0f) * M_PI),  sinf((-3.0f / 6.0f) * M_PI), 0.0f},
+        {cosf((-7.0f / 6.0f) * M_PI),  sinf((-7.0f / 6.0f) * M_PI), 0.0f},
+        {cosf((-11.0f / 6.0f) * M_PI),  sinf((-11.0f / 6.0f) * M_PI), 0.0f}
 };
 
 int main()
