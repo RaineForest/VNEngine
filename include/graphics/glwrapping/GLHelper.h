@@ -13,11 +13,11 @@
 #include <string>
 #include <utility>
 
-#define GL_CHECK(X) (X); {GLenum _error = glGetError(); if (_error != GL_NO_ERROR) {throw vngine::GLException(std::string(reinterpret_cast<const char*>(gluErrorString(_error)))); }}
-
 namespace vngine {
 namespace graphics {
 namespace glwrapping {
+
+#define GL_CHECK(X) (X); {GLenum _error = glGetError(); if (_error != GL_NO_ERROR) {throw vngine::GLException(_error); }}
 
 template<typename ... Args>
 void glHelperCall(std::string func, Args ... args)

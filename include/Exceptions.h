@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <GL/glew.h>
+
 #include <execinfo.h>
 #include <functional>
 #include <memory>
@@ -48,7 +50,33 @@ class GLException : public VNgineException
 {
 public:
         GLException(std::string msg) : VNgineException(std::string("GLException: ") + msg) {}
+        GLException(GLenum code) : VNgineException(std::string("GLException: ") + glErrorString(code)) {}
         virtual ~GLException() {}
+
+private:
+        static std::string glErrorString(GLenum error) {
+                switch (error) {
+                case GL_NO_ERROR:
+                        return "No error";
+                case GL_INVALID_ENUM:
+                        return "Invalid enum";
+                case GL_INVALID_VALUE:
+                        return "Invalid value";
+                case GL_INVALID_OPERATION:
+                        return "Invalid operation";
+                case GL_INVALID_FRAMEBUFFER_OPERATION:
+                        return "Invalid framebuffer operation";
+                case GL_OUT_OF_MEMORY:
+                        return "Out of memory";
+                case GL_STACK_UNDERFLOW:
+                        return "Stack underflow";
+                case GL_STACK_OVERFLOW:
+                        return "Stack overflow";
+                default:
+                        return "Unknown error " + std::to_string(error);
+        }
+}
+
 }; 
 
 } //namespace vngine
