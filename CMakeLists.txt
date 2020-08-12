@@ -51,7 +51,6 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
 
 set(VNGINE_SOURCES
   "src/event/KeyListener.cpp"
-  "src/graphics/FreetypeFont.cpp"
 	"src/graphics/glwrapping/Shader.cpp"
 	"src/graphics/glwrapping/ShaderProgram.cpp"
   "src/graphics/glwrapping/VertexArray.cpp"
@@ -60,6 +59,9 @@ set(VNGINE_SOURCES
   "src/graphics/OrthographicCamera.cpp"
   "src/graphics/PerspectiveCamera.cpp"
   "src/graphics/RawModel.cpp"
+  "src/graphics/text/Codepoint.cpp"
+  "src/graphics/text/FreeTypeFont.cpp"
+  "src/graphics/text/TextLine.cpp"
   "src/graphics/Texture.cpp"
 	"src/init/GameInit3D.cpp"
 )
@@ -79,6 +81,7 @@ enable_testing()
 
 set(VNGINE_TESTS
 	"test/unit/main.cpp"
+  "test/unit/CodepointTest.cpp"
   "test/unit/ExceptionTest.cpp"
   "test/unit/GLHelperTest.cpp"
 )

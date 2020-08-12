@@ -1,8 +1,9 @@
 
 #include "graphics/glwrapping/Shader.h"
 #include "graphics/glwrapping/ShaderProgram.h"
-#include "graphics/FreetypeFont.h"
 #include "graphics/OrthographicCamera.h"
+#include "graphics/text/FreeTypeFont.h"
+#include "graphics/text/TextLine.h"
 #include "init/GameInit3D.h"
 
 #include <iostream>
@@ -52,11 +53,20 @@ int main()
         auto fragShader = std::make_shared<vngine::graphics::glwrapping::Shader>(GL_FRAGMENT_SHADER, basicFragShader);
         program->setShaders(std::vector<std::shared_ptr<vngine::graphics::glwrapping::Shader>>({vertShader, fragShader}));
 
-        vngine::graphics::FreetypeFont font("/usr/share/fonts/gnu-free/FreeSans.ttf", 0);
-        font.setSize(48);
-        auto model = font.generate('b', program);
-        model->translate(glm::vec3{-640.0f, 360.0f, 0.0f});
+        vngine::graphics::text::FreeTypeFont font("/usr/share/fonts/gnu-free/FreeSans.ttf", 0);
+
+        font.setSize(240);
+        auto model2 = font.generate('a', program);
+        model2->translate(glm::vec3{300.0f, 360.0f - 24.0f, 0.0f});
+        my_init.add(std::move(model2));
+
+        font.setSize(120);
+        auto model = font.generate(vngine::graphics::text::Codepoint(0x20ac), program); // euro symbol? no prob
+        model->translate(glm::vec3{640.0f, 360.0f - 24.0f, 0.0f});
         my_init.add(std::move(model));
+
+        auto line = std::make_unique<vngine::graphics::text::TextLine>(std::string("hello world!"), font, program);
+        my_init.add(std::move(line));
 
         my_init.start();
 

@@ -17,7 +17,7 @@ public:
         void translate(glm::vec3 move);
 
 private:
-        glm::mat4 view{glm::lookAt(glm::vec3{0.f, 0.f, 0.f}, glm::vec3{0.f, 0.f, 1.f}, glm::vec3{0.f, 1.f, 0.f})};
+        glm::mat4 view{glm::lookAt(glm::vec3{0.f, 0.f, 0.f}, glm::vec3{0.f, 0.f, -1.f}, glm::vec3{0.f, 1.f, 0.f})};
 };
 
 } // namespace graphics
